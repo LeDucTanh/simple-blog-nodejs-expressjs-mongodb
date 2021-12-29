@@ -1,6 +1,6 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
-const conn = mongoose.connect('mongodb://127.0.0.1:27017/myapp', {
+const conn = mongoose.connect('mongodb://18.141.191.200:27017/myapp', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 }).then(() => {
