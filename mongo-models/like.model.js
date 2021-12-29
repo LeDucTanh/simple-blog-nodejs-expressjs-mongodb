@@ -1,16 +1,14 @@
 const mongoose = require('mongoose');
 const schema = mongoose.Schema;
 
-const UserSchema = new schema({
-    username: {
+const LikeSchema = new schema({
+    likeReact: {
         type: String,
-        lowercase: true,
-        unique: true,
-        require: true
+        enum : ['user','admin'],
+        default: 'user'
     },
-    password: {
-        type: String,
-        require: true
+    postId: {
+        type: mongoose.Schema.Types.ObjectId
     },
     createdAt: {
         type: Date,
@@ -22,10 +20,12 @@ const UserSchema = new schema({
     },
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: 'users'
     },
     updatedBy: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: 'users'
     }
-})
+});
 
-module.exports = mongoose.model('users', UserSchema);
+module.exports = mongoose.model('likes', LikeSchema);
