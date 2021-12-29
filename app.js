@@ -5,6 +5,7 @@ const app = express();
 require('dotenv').config()
 
 const userRoutes = require('./routes/user.routes');
+const uploadRoutes = require('./routes/upload.routes');
 
 const createError = require('http-errors')
 require('./helpers/connections-mongodb')
@@ -22,6 +23,7 @@ app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerJsDocs));
 
 // Routes
 app.use('/user', userRoutes);
+app.use('/', uploadRoutes);
 
 // Middlewares
 app.use((req, res, next) => {
