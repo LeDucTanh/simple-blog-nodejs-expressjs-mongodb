@@ -2,12 +2,12 @@
 
 const express = require('express');
 const app = express();
+require('dotenv').config()
 
 const userRoutes = require('./routes/user.routes');
 
 const createError = require('http-errors')
 require('./helpers/connections-mongodb')
-require('dotenv').config()
 const swaggerUI = require('swagger-ui-express');
 
 const path = require('path');

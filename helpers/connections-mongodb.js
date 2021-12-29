@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const conn = mongoose.connect('mongodb://18.141.191.200:27017/myapp', {
+const conn = mongoose.connect(`${process.env.DATABASE_URL}:${process.env.DATABASE_PORT}/${process.env.DATABASE_NAME}`, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 }).then(() => {
