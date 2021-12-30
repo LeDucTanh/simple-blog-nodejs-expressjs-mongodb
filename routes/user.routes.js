@@ -7,9 +7,6 @@ const User = require('../mongo-models/user.model');
 
 // const controller = require('../controllers/user.controller')
 
-// router.post('/register', controller.register)
-
-// router.post('/login', controller.login)
 router.post('/register', async (req, res, next) => {
     try {
         // Get user input
@@ -57,7 +54,7 @@ router.post('/register', async (req, res, next) => {
     // Our register logic ends here
 });
 // login
-router.post('/login', async  (req, res, next) => {
+router.post('/login', async (req, res, next) => {
     // Our login logic starts here
     try {
         // Get user input
@@ -92,6 +89,5 @@ router.post('/login', async  (req, res, next) => {
     }
     // Our register logic ends here
 });
-
 
 module.exports = router;
