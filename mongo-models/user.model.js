@@ -12,16 +12,20 @@ const UserSchema = new schema({
         type: String,
         require: true,
     },
-    createdAt: {
+    createdOn: {
         type: Date,
         default: Date.now,
     },
-    updatedAt: {
+    updatedOn: {
         type: Date,
         default: Date.now,
     },
     createdBy: { type: mongoose.Schema.Types.ObjectId },
     updatedBy: { type: mongoose.Schema.Types.ObjectId },
+    token: {
+        type: String,
+        require: true,
+    },
 })
 
 module.exports = mongoose.model('users', UserSchema)
