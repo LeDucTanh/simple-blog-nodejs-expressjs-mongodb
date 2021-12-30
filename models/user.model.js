@@ -1,5 +1,5 @@
-const mongoose = require('mongoose')
-const schema = mongoose.Schema
+const mongoose = require('mongoose');
+const schema = mongoose.Schema;
 
 const UserSchema = new schema({
     username: {
@@ -22,6 +22,6 @@ const UserSchema = new schema({
     },
     createdBy: { type: mongoose.Schema.Types.ObjectId },
     updatedBy: { type: mongoose.Schema.Types.ObjectId },
-})
+});
 
-module.exports = mongoose.model('users', UserSchema)
+module.exports = mongoose.model('users', UserSchema);

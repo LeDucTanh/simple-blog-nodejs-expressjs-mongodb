@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const schema = mongoose.Schema;
 
-const PostSchema = new Schema({
+const PostSchema = new schema({
     message: {
         type: String,
     },
@@ -48,7 +48,7 @@ const PostSchema = new Schema({
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'users',
-        require: true,
+        // require: true,
     },
     updatedBy: {
         type: mongoose.Schema.Types.ObjectId,
