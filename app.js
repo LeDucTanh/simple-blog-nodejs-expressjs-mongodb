@@ -2,13 +2,13 @@
 
 const express = require('express');
 const app = express();
-require('dotenv').config()
+require('dotenv').config();
 
 const userRoutes = require('./routes/user.routes');
 const uploadRoutes = require('./routes/upload.routes');
 
-const createError = require('http-errors')
-require('./helpers/connections-mongodb')
+const createError = require('http-errors');
+require('./helpers/connections-mongodb');
 const swaggerUI = require('swagger-ui-express');
 
 const path = require('path');
@@ -27,15 +27,15 @@ app.use('/', uploadRoutes);
 
 // Middlewares
 app.use((req, res, next) => {
-    next(createError.NotFound('This route does not exist.'))
-})
+    next(createError.NotFound('This route does not exist.'));
+});
 
 app.use((err, req, res, next) => {
     res.json({
         status: err.status || 500,
-        message: err.message
-    })
-})
+        message: err.message,
+    });
+});
 
 // App
 app.listen(3000);

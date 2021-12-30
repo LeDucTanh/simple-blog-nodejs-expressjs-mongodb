@@ -4,11 +4,13 @@ const schema = mongoose.Schema;
 const LikeSchema = new schema({
     likeReact: {
         type: String,
-        enum : ['user','admin'],
-        default: 'user'
+        enum: ['like', 'love', 'care', 'haha', 'wow', 'sad', 'angry'],
+        default: 'like',
     },
     postId: {
-        type: mongoose.Schema.Types.ObjectId
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'users',
+        require: true,
     },
     createdAt: {
         type: Date,
@@ -20,12 +22,13 @@ const LikeSchema = new schema({
     },
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'users'
+        ref: 'users',
+        require: true,
     },
     updatedBy: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'users'
-    }
+        ref: 'users',
+    },
 });
 
 module.exports = mongoose.model('likes', LikeSchema);

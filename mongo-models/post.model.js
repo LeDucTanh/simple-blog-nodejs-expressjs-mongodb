@@ -3,37 +3,39 @@ const schema = mongoose.Schema;
 
 const PostSchema = new Schema({
     message: {
-        type: String
+        type: String,
     },
     videosLink: [
         {
-            type: String
-        }
+            type: String,
+        },
     ],
     imagesLink: [
         {
-            type: String
-        }
+            type: String,
+        },
     ],
     share: [
         {
             type: mongoose.Schema.Types.ObjectId,
-        }
+            ref: 'posts',
+        },
     ],
     comments: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'comments'
-        }
+            ref: 'comments',
+        },
     ],
     likes: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'users'
-        }
+            ref: 'users',
+        },
     ],
     originalPostId: {
-        type: mongoose.Schema.Types.ObjectId
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'posts',
     },
     createdAt: {
         type: Date,
@@ -45,12 +47,13 @@ const PostSchema = new Schema({
     },
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'users'
+        ref: 'users',
+        require: true,
     },
     updatedBy: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'users'
-    }
-})
+        ref: 'users',
+    },
+});
 
 module.exports = mongoose.model('posts', PostSchema);

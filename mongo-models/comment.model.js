@@ -3,16 +3,19 @@ const schema = mongoose.Schema;
 
 const CommentSchema = new schema({
     message: {
-        type: String
+        type: String,
     },
     imageLink: {
-        type: String
+        type: String,
     },
     postId: {
-        type: mongoose.Schema.Types.ObjectId
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'users',
+        require: true,
     },
     parentCommentId: {
-        type: mongoose.Schema.Types.ObjectId
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'comments',
     },
     createdAt: {
         type: Date,
@@ -24,10 +27,13 @@ const CommentSchema = new schema({
     },
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'users'
+        ref: 'users',
+        require: true,
     },
     updatedBy: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'users'
-    }
+        ref: 'users',
+    },
 });
+
+module.exports = mongoose.model('comments', CommentSchema);

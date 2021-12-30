@@ -1,16 +1,16 @@
-const mongoose = require('mongoose');
-const schema = mongoose.Schema;
+const mongoose = require('mongoose')
+const schema = mongoose.Schema
 
 const UserSchema = new schema({
     username: {
         type: String,
         lowercase: true,
         unique: true,
-        require: true
+        require: true,
     },
     password: {
         type: String,
-        require: true
+        require: true,
     },
     createdAt: {
         type: Date,
@@ -20,12 +20,8 @@ const UserSchema = new schema({
         type: Date,
         default: Date.now,
     },
-    createdBy: {
-        type: mongoose.Schema.Types.ObjectId,
-    },
-    updatedBy: {
-        type: mongoose.Schema.Types.ObjectId,
-    }
+    createdBy: { type: mongoose.Schema.Types.ObjectId },
+    updatedBy: { type: mongoose.Schema.Types.ObjectId },
 })
 
-module.exports = mongoose.model('users', UserSchema);
+module.exports = mongoose.model('users', UserSchema)
