@@ -12,7 +12,7 @@ const add = async (req, res, next) => {
 
         const savedPost = await post.save();
         res.status(200).json({
-            message: 'Created a post',
+            message: 'Created a post successfully',
         });
     } catch (error) {
         next(error);
