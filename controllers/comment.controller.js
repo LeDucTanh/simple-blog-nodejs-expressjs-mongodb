@@ -30,9 +30,9 @@ const add = async (req, res, next) => {
             createdBy: userId,
         });
         const savedCmt = await cmt.save();
-        await Post.findByIdAndUpdate(postId, {
-            $push: { comments: [savedCmt._id] },
-        });
+        // await Post.findByIdAndUpdate(postId, {
+        //     $push: { comments: [savedCmt._id] },
+        // });
 
         res.status(201).json({
             code: 201,
@@ -46,4 +46,82 @@ const add = async (req, res, next) => {
     }
 };
 
-module.exports = { add };
+const getList = async (req, res, next) => {
+    try {
+        const { id } = req.query;
+        const post = await Post.findById(id);
+        if (!post) {
+            return res.status(200).json({
+                code: 200,
+                message: 'Post is not exist',
+            });
+        }
+        const newPost = await post.populate({
+            path: 'listComment',
+            match: { cmtParentId: null },
+            populate: {
+                path: 'childComments',
+            },
+        });
+
+        res.status(200).json({
+            code: 200,
+            message: 'success',
+            data: {
+                comments: newPost.listComment,
+            },
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+const reply = async (req, res, next) => {
+    try {
+        const { message, imageLink, userId, postId, cmtParentId } = req.body;
+        if (!userId || !postId) {
+            throw createError.BadRequest('Missing userId or postId');
+        }
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(200).json({
+                code: 200,
+                message: 'User is not exist',
+            });
+        }
+        const post = await Post.findById(postId);
+        if (!post) {
+            return res.status(200).json({
+                code: 200,
+                message: 'Post is not exist',
+            });
+        }
+        const comment = await Comment.findById(cmtParentId);
+        if (!comment) {
+            return res.status(200).json({
+                code: 200,
+                message: 'Comment is not exist',
+            });
+        }
+        const cmt = new Comment({
+            message,
+            imageLink,
+            postId,
+            createdBy: userId,
+            cmtParentId,
+        });
+        const savedCmt = await cmt.save();
+
+        res.status(201).json({
+            code: 201,
+            message: 'Your reply has been created',
+            data: {
+                id: savedCmt._id,
+            },
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+module.exports = { add, getList, reply };
