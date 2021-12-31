@@ -1,19 +1,15 @@
 'use strict';
-
-const express = require('express');
-const app = express();
 require('dotenv').config();
-
-const userRoutes = require('./routes/user.routes');
-const uploadRoutes = require('./routes/upload.routes');
-
-const createError = require('http-errors');
+const express = require('express');
 require('./helpers/connections-mongodb');
+const apiRoutes = require('./routes/api.routes');
+const createError = require('http-errors');
 const swaggerUI = require('swagger-ui-express');
-
 const path = require('path');
 const swaggerLocation = path.join(__dirname, 'swagger.json');
 const swaggerJsDocs = require(swaggerLocation);
+
+const app = express();
 
 // Express configuration
 app.use(express.json());
@@ -22,8 +18,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerJsDocs));
 
 // Routes
-app.use('/user', userRoutes);
-app.use('/', uploadRoutes);
+app.use('/api', apiRoutes);
 
 // Middlewares
 app.use((req, res, next) => {
@@ -38,7 +33,6 @@ app.use((err, req, res, next) => {
 });
 
 // App
-app.listen(3000);
-console.log('Server init at port ' + 3000);
-
-module.exports = app;
+const port = process.env.PORT || 3000;
+app.listen(port);
+console.log('Server init at port ' + port);

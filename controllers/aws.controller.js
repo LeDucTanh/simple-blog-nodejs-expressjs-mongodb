@@ -1,23 +1,20 @@
- const s3 = require('../config/s3.config');
- 
-exports.doUpload = (req, res) => {
-	const s3Client = s3.s3Client;
-	const params = s3.uploadParams;
-	
-	params.Key = Date.now() + '--' + req.file.originalname;
-	params.Body = req.file.buffer;
+const s3 = require('../config/s3.config');
+
+const doUpload = (req, res, next) => {
+    const s3Client = s3.s3Client;
+    const params = s3.uploadParams;
+    params.Key = Date.now() + '--' + req.file.originalname;
+    params.Body = req.file.buffer;
     params.ACL = 'public-read';
-		
-	s3Client.upload(params, (err, data) => {
-		if (err) {
-			res.status(500).json({error:"Error -> " + err});
-		}
 
+    s3Client.upload(params, (err, data) => {
+        if (err) {
+            return next(err);
+        }
         // console.log(JSON.stringify(data, null, 3));
+        req.body.imageLink = data['Location'];
+        next();
+    });
+};
 
-        const imageLink = data['Location'];
-        res.json({
-            imageLink
-        })
-	});
-}
+module.exports = { doUpload };

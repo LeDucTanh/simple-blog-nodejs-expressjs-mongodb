@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 const schema = mongoose.Schema;
+const User = require('../models/user.model');
 
-const PostSchema = new Schema({
+const PostSchema = new schema({
     message: {
         type: String,
     },
@@ -55,5 +56,15 @@ const PostSchema = new Schema({
         ref: 'users',
     },
 });
+
+// PostSchema.pre('save', async function (next) {
+//     try {
+//         const user = await User.findOne({ username: 'tanh1' });
+//         this.createdBy = user._id;
+//         next();
+//     } catch (error) {
+//         next(error);
+//     }
+// });
 
 module.exports = mongoose.model('posts', PostSchema);
