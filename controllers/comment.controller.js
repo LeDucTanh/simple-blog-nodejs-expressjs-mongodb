@@ -1,7 +1,6 @@
 const Comment = require('../models/comment.model');
 const Post = require('../models/post.model');
 const User = require('../models/user.model');
-const mongoose = require('mongoose');
 const createError = require('http-errors');
 
 const add = async (req, res, next) => {
@@ -10,31 +9,30 @@ const add = async (req, res, next) => {
         if (!userId || !postId) {
             throw createError.BadRequest('Missing userId or postId');
         }
-        const user = await User.findOne({ _id: userId });
+        const user = await User.findById(userId);
         if (!user) {
             return res.status(200).json({
                 code: 200,
                 message: 'User is not exist',
             });
         }
-        const post = await Post.findOne({ _id: postId });
+        const post = await Post.findById(postId);
         if (!post) {
             return res.status(200).json({
                 code: 200,
                 message: 'Post is not exist',
             });
         }
-        const createdBy = mongoose.Types.ObjectId(userId);
-        const objectPostId = mongoose.Types.ObjectId(postId);
         const cmt = new Comment({
             message,
             imageLink,
-            postId: objectPostId,
-            createdBy,
+            postId,
+            createdBy: userId,
         });
         const savedCmt = await cmt.save();
-        post.comments.push(savedCmt._id);
-        await post.save();
+        await Post.findByIdAndUpdate(postId, {
+            $push: { comments: [savedCmt._id] },
+        });
 
         res.status(201).json({
             code: 201,
