@@ -8,6 +8,7 @@ const swaggerUI = require('swagger-ui-express');
 const path = require('path');
 const swaggerLocation = path.join(__dirname, 'swagger.json');
 const swaggerJsDocs = require(swaggerLocation);
+const verifyToken = require('./middlewares/user');
 
 const app = express();
 
@@ -21,6 +22,11 @@ app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerJsDocs));
 app.use('/api', apiRoutes);
 
 // Middlewares
+//  đoạn này show verifyToken
+// app.post('/welcome', verifyToken, (req, res) => {
+//     res.status(200).send('Welcome 🙌 ');
+// });
+
 app.use((req, res, next) => {
     next(createError.NotFound('This route does not exist.'));
 });
