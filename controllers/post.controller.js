@@ -13,7 +13,7 @@ const add = async (req, res, next) => {
         const savedPost = await post.save();
 
         res.status(201).json({
-            code: 201,
+            status: 201,
             data: {
                 id: savedPost._id,
             },

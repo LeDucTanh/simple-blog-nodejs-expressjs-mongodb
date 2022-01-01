@@ -16,7 +16,7 @@ const likeOrUnLike = async (req, res, next) => {
                 message = 'Liked';
             }
             return res.status(200).json({
-                code: 200,
+                status: 200,
                 message,
                 data: {
                     id: existLike._id,
@@ -29,7 +29,7 @@ const likeOrUnLike = async (req, res, next) => {
         });
         const savedLike = await like.save();
         res.status(201).json({
-            code: 201,
+            status: 201,
             message: 'Liked',
             data: {
                 id: savedLike._id,
@@ -56,7 +56,7 @@ const list = async (req, res, next) => {
             { createdBy: 1 }
         ).populate('createdBy');
         res.status(200).json({
-            code: 200,
+            status: 200,
             message: 'success',
             data: {
                 list: likes,

@@ -18,7 +18,7 @@ const add = async (req, res, next) => {
         // });
 
         res.status(201).json({
-            code: 201,
+            status: 201,
             message: 'Your comment has been created',
             data: {
                 id: savedCmt._id,
@@ -45,7 +45,7 @@ const getList = async (req, res, next) => {
         });
 
         res.status(200).json({
-            code: 200,
+            status: 200,
             message: 'success',
             data: {
                 comments: newPost.comments,
@@ -73,7 +73,7 @@ const reply = async (req, res, next) => {
         const savedCmt = await cmt.save();
 
         res.status(201).json({
-            code: 201,
+            status: 201,
             message: 'Your reply has been created',
             data: {
                 id: savedCmt._id,
@@ -95,7 +95,7 @@ const update = async (req, res, next) => {
             throw createError.BadRequest('Comment is not exist');
         }
         res.status(200).json({
-            code: 200,
+            status: 200,
             message: 'Comment updated',
         });
     } catch (error) {
@@ -118,7 +118,7 @@ const deleteComment = async (req, res, next) => {
         );
         await comment.remove();
         res.status(200).json({
-            code: 200,
+            status: 200,
             message: 'Comment deleted',
         });
     } catch (error) {
