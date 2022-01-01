@@ -52,10 +52,9 @@ const list = async (req, res, next) => {
         //     { pupulate: { path: 'createdBy' } }
         // );
         const likes = await Like.find(
-            { postId: id },
+            { postId: id, likeReact: 'like' },
             { createdBy: 1 }
         ).populate('createdBy');
-        console.log('tanh::: ' + likes);
         res.status(200).json({
             code: 200,
             message: 'success',
