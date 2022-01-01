@@ -6,23 +6,6 @@ const createError = require('http-errors');
 const add = async (req, res, next) => {
     try {
         const { message, imageLink, userId, postId } = req.body;
-        if (!userId || !postId) {
-            throw createError.BadRequest('Missing userId or postId');
-        }
-        const user = await User.findById(userId);
-        if (!user) {
-            return res.status(200).json({
-                code: 200,
-                message: 'User is not exist',
-            });
-        }
-        const post = await Post.findById(postId);
-        if (!post) {
-            return res.status(200).json({
-                code: 200,
-                message: 'Post is not exist',
-            });
-        }
         const cmt = new Comment({
             message,
             imageLink,
@@ -51,13 +34,10 @@ const getList = async (req, res, next) => {
         const { id } = req.query;
         const post = await Post.findById(id);
         if (!post) {
-            return res.status(200).json({
-                code: 200,
-                message: 'Post is not exist',
-            });
+            throw createError.BadRequest('Post is not exist');
         }
         const newPost = await post.populate({
-            path: 'listComment',
+            path: 'comments',
             match: { cmtParentId: null },
             populate: {
                 path: 'childComments',
@@ -68,7 +48,7 @@ const getList = async (req, res, next) => {
             code: 200,
             message: 'success',
             data: {
-                comments: newPost.listComment,
+                comments: newPost.comments,
             },
         });
     } catch (error) {
@@ -79,23 +59,6 @@ const getList = async (req, res, next) => {
 const reply = async (req, res, next) => {
     try {
         const { message, imageLink, userId, postId, cmtParentId } = req.body;
-        if (!userId || !postId) {
-            throw createError.BadRequest('Missing userId or postId');
-        }
-        const user = await User.findById(userId);
-        if (!user) {
-            return res.status(200).json({
-                code: 200,
-                message: 'User is not exist',
-            });
-        }
-        const post = await Post.findById(postId);
-        if (!post) {
-            return res.status(200).json({
-                code: 200,
-                message: 'Post is not exist',
-            });
-        }
         const comment = await Comment.findById(cmtParentId);
         if (!comment) {
             return res.status(200).json({

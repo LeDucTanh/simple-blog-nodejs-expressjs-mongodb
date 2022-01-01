@@ -7,7 +7,6 @@ const PostSchema = new schema({
     videosLink: [String],
     imagesLink: [String],
     share: [{ type: mongoose.Schema.Types.ObjectId, ref: 'posts' }],
-    likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'users' }],
     originalPostId: { type: mongoose.Schema.Types.ObjectId, ref: 'posts' },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
@@ -19,8 +18,14 @@ const PostSchema = new schema({
     updatedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'users' },
 });
 
-PostSchema.virtual('listComment', {
+PostSchema.virtual('comments', {
     ref: 'comments',
+    localField: '_id',
+    foreignField: 'postId',
+});
+
+PostSchema.virtual('likes', {
+    ref: 'likes',
     localField: '_id',
     foreignField: 'postId',
 });
