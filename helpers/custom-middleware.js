@@ -12,7 +12,7 @@ const verifyUser = async (req, res, next) => {
         if (!user) {
             throw createError.BadRequest('User is not exist');
         }
-        req.body.user = user;
+        req.user = user;
         next();
     } catch (error) {
         next(error);
@@ -29,7 +29,7 @@ const verifyPost = async (req, res, next) => {
         if (!post) {
             throw createError.BadRequest('Post is not exist');
         }
-        req.body.post = post;
+        req.post = post;
         next();
     } catch (error) {
         next(error);
