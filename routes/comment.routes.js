@@ -16,5 +16,7 @@ router.post(
     middleware.verifyPost,
     cmtController.reply
 );
+router.put('/', middleware.verifyUser, cmtController.update);
+router.delete('/', cmtController.deleteComment); // need to add verify access token
 
 module.exports = router;

@@ -61,10 +61,7 @@ const reply = async (req, res, next) => {
         const { message, imageLink, userId, postId, cmtParentId } = req.body;
         const comment = await Comment.findById(cmtParentId);
         if (!comment) {
-            return res.status(200).json({
-                code: 200,
-                message: 'Comment is not exist',
-            });
+            throw createError.BadRequest('Comment is not exist');
         }
         const cmt = new Comment({
             message,
@@ -87,4 +84,46 @@ const reply = async (req, res, next) => {
     }
 };
 
-module.exports = { add, getList, reply };
+const update = async (req, res, next) => {
+    try {
+        const { id, message } = req.body;
+        const comment = await Comment.findByIdAndUpdate(id, {
+            message,
+            updatedAt: Date.now(),
+        });
+        if (!comment) {
+            throw createError.BadRequest('Comment is not exist');
+        }
+        res.status(200).json({
+            code: 200,
+            message: 'Comment updated',
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+const deleteComment = async (req, res, next) => {
+    try {
+        const { id } = req.query;
+        const comment = await Comment.findById(id);
+        if (!comment) {
+            throw createError.BadRequest('Comment is not exist');
+        }
+        const subComments = await Comment.find({ cmtParentId: id });
+        await Promise.all(
+            subComments.map(item => {
+                item.remove();
+            })
+        );
+        await comment.remove();
+        res.status(200).json({
+            code: 200,
+            message: 'Comment deleted',
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+module.exports = { add, getList, reply, update, deleteComment };
