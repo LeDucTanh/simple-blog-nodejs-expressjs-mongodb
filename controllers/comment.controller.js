@@ -16,7 +16,6 @@ const add = async (req, res, next) => {
         // await Post.findByIdAndUpdate(postId, {
         //     $push: { comments: [savedCmt._id] },
         // });
-
         res.status(201).json({
             status: 201,
             message: 'Your comment has been created',
@@ -43,7 +42,6 @@ const getList = async (req, res, next) => {
                 path: 'childComments',
             },
         });
-
         res.status(200).json({
             status: 200,
             message: 'success',
@@ -71,7 +69,6 @@ const reply = async (req, res, next) => {
             cmtParentId,
         });
         const savedCmt = await cmt.save();
-
         res.status(201).json({
             status: 201,
             message: 'Your reply has been created',
