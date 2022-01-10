@@ -3,7 +3,7 @@ const router = express.Router();
 const createError = require('http-errors');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const User = require('../mongo-models/user.model');
+const User = require('../models/user.model');
 
 // const controller = require('../controllers/user.controller')
 

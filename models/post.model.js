@@ -1,61 +1,37 @@
 const mongoose = require('mongoose');
 const schema = mongoose.Schema;
-const User = require('../models/user.model');
+// const User = require('../models/user.model');
 
 const PostSchema = new schema({
-    message: {
-        type: String,
-    },
-    videosLink: [
-        {
-            type: String,
-        },
-    ],
-    imagesLink: [
-        {
-            type: String,
-        },
-    ],
-    share: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'posts',
-        },
-    ],
-    comments: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'comments',
-        },
-    ],
-    likes: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'users',
-        },
-    ],
-    originalPostId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'posts',
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now,
-    },
-    updatedAt: {
-        type: Date,
-        default: Date.now,
-    },
+    message: String,
+    videosLink: [String],
+    imagesLink: [String],
+    share: [{ type: mongoose.Schema.Types.ObjectId, ref: 'posts' }],
+    originalPostId: { type: mongoose.Schema.Types.ObjectId, ref: 'posts' },
+    createdAt: { type: Date, default: Date.now },
+    updatedAt: { type: Date, default: Date.now },
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'users',
         require: true,
     },
-    updatedBy: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'users',
-    },
+    updatedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'users' },
 });
+
+PostSchema.virtual('comments', {
+    ref: 'comments',
+    localField: '_id',
+    foreignField: 'postId',
+});
+
+PostSchema.virtual('likes', {
+    ref: 'likes',
+    localField: '_id',
+    foreignField: 'postId',
+});
+
+PostSchema.set('toObject', { virtuals: true });
+PostSchema.set('toJSON', { virtuals: true });
 
 // PostSchema.pre('save', async function (next) {
 //     try {

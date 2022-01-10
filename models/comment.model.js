@@ -9,7 +9,7 @@ const CommentSchema = new schema({
         ref: 'posts',
         require: true,
     },
-    parentCommentId: { type: mongoose.Schema.Types.ObjectId, ref: 'comments' },
+    cmtParentId: { type: mongoose.Schema.Types.ObjectId, ref: 'comments' },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
     createdBy: {
@@ -19,5 +19,14 @@ const CommentSchema = new schema({
     },
     updatedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'users' },
 });
+
+CommentSchema.virtual('childComments', {
+    ref: 'comments',
+    localField: '_id',
+    foreignField: 'cmtParentId',
+});
+
+CommentSchema.set('toObject', { virtuals: true });
+CommentSchema.set('toJSON', { virtuals: true });
 
 module.exports = mongoose.model('comments', CommentSchema);

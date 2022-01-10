@@ -9,7 +9,7 @@ const LikeSchema = new schema({
     },
     postId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'users',
+        ref: 'posts',
         require: true,
     },
     createdAt: {
